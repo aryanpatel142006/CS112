@@ -11,7 +11,7 @@ import island.constants.*;
  * and cat.moveDown() methods to traverse the islands and complete
  * their unique objectives
  * 
- * @author Colin Sullivan
+ * @author Aryan Patel
  */
 public class CatIsland {
 
@@ -23,8 +23,10 @@ public class CatIsland {
      * @throws CatInWaterException
      */
     public static void solveIsland1(Cat cat) throws CatInWaterException {
-        // WRITE YOUR CODE HERE
-
+        cat.moveRight();
+        cat.moveLeft();
+        cat.moveDown();
+        cat.moveUp();
     }
 
     /**
@@ -35,8 +37,18 @@ public class CatIsland {
      * @throws CatInWaterException
      */
     public static void solveIsland2(Cat cat) throws CatInWaterException {
-        // WRITE YOUR CODE HERE
-
+        for(int i = 0; i<3; i++){
+        cat.moveRight();
+        }
+        cat.moveUp();
+        for(int i = 0; i<4; i++){
+            cat.moveLeft();
+        }
+        cat.moveDown();
+        cat.moveDown();
+        for(int i = 0; i<4; i++){
+            cat.moveRight();
+        }
     }
 
     /**
@@ -48,8 +60,16 @@ public class CatIsland {
      * @throws CatInWaterException
      */
     public static void solveIsland3(Cat cat) throws CatInWaterException {
-        // WRITE YOUR CODE HERE
-
+        cat.moveRight(); cat.moveRight();
+        cat.moveUp();
+        cat.moveDown();cat.moveDown();
+        cat.moveUp();
+        for(int i = 0; i<3; i++){
+            cat.moveLeft();
+        }
+        cat.moveUp();
+        cat.moveDown();cat.moveDown();
+        cat.moveLeft();
     }
 
     /**
@@ -69,8 +89,16 @@ public class CatIsland {
      * @throws CatInWaterException
      */
     public static void solveIsland4(Island islandFour) throws CatInWaterException {
-        // WRITE YOUR CODE HERE
-
+        islandFour.getTiles()[1][2].type = Tile.LAND;
+       
+        islandFour.getTiles()[2][2].type = Tile.LAND;
+       
+        islandFour.getTiles()[3][2].type = Tile.LAND;
+        islandFour.getTiles()[1][2].hasYarn = true;
+       
+       
+        islandFour.getTiles()[3][2].hasYarn = true;
+        Cat cat = new Cat("cat", islandFour, 2, 2, Color.BLACK);
     }
 
     /**
@@ -103,7 +131,35 @@ public class CatIsland {
      * @throws CatInWaterException
      */
     public static void solveIsland5Recursive(Cat cat, Tile[][] tiles, Tile prev) throws CatInWaterException {
-
+        if(cat.getRow() ==0 && cat.getCol() == 8){
+            return;
+        }
+        else{
+            if(cat.getRow() > 0 && tiles[cat.getRow()-1][cat.getCol()].type == Tile.LAND && tiles[cat.getRow()-1][cat.getCol()] != prev){
+                cat.moveUp();
+                
+                solveIsland5Recursive(cat, tiles, tiles[cat.getRow()+1][cat.getCol()]);
+            }
+            else if(cat.getRow() < 8 && tiles[cat.getRow()+1][cat.getCol()].type == Tile.LAND && tiles[cat.getRow()+1][cat.getCol()] != prev){
+               
+               
+                cat.moveDown();
+                solveIsland5Recursive(cat, tiles, tiles[cat.getRow()-1][cat.getCol()]);
+            }
+            else if(cat.getCol() > 0 && tiles[cat.getRow()][cat.getCol()-1].type == Tile.LAND && tiles[cat.getRow()][cat.getCol()-1] != prev){
+                
+                
+                cat.moveLeft();
+                solveIsland5Recursive(cat, tiles, tiles[cat.getRow()][cat.getCol()+1]);
+            }
+            else if(cat.getCol() < 8 && tiles[cat.getRow()][cat.getCol()+1].type == Tile.LAND && tiles[cat.getRow()][cat.getCol()+1] != prev){
+                
+                cat.moveRight();
+                
+                
+                solveIsland5Recursive(cat, tiles, tiles[cat.getRow()][cat.getCol()-1]);
+            }
+        }
     }
 
 }
